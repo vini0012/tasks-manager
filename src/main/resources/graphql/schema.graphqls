@@ -1,0 +1,50 @@
+type User {
+    uuid: ID!
+    fullName: String!
+    email: String!
+}
+
+type Task {
+    uuid: ID!
+    description: String!
+    status: TaskStatus!
+    user: User!
+}
+
+enum TaskStatus {
+    CREATED
+    IN_PROGRESS
+    COMPLETED
+    CANCELED
+}
+
+type Query {
+    findAllTasks : [Task]
+    findTaskById(uuid: ID!) : Task
+    findTaskByStatus (status : TaskStatus!) : [Task]
+    findTasksByUserId(userId: ID!) : [Task]
+
+    findAllUsers : [User]
+    findUserById(uuid: ID!) : User
+}
+
+type Mutation {
+    createTask(taskDto: TaskDto!) : Task
+    deleteTask(uuid : ID!): String
+    markAsCompleted(uuid : ID!): String
+    updateTask(uuid : ID!, status : TaskStatus!, description : String) : Task
+
+    createUser(userDto: UserDto!) : User
+}
+
+input TaskDto {
+    description: String!
+    status: TaskStatus!
+    userId: ID!
+}
+
+input UserDto {
+    username: String!
+    fullName: String!
+    email: String!
+}
